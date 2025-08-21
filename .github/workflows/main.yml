@@ -1,21 +1,30 @@
 name: AWS Connectivity Test - Demo EIDD
 on:
-  workflow_dispatch: # Se ejecuta manualmente desde GitHub Actions
-jobs:
-  aws-test:
-    runs-on: ubuntu-latest
-    steps:
+ push:
+    branches:
+      - main #Rama en la cual se ejecuta
 
+jobs:
+ an-example-job:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write #Necesario para autenticar
+    
+    steps:
       - name: Configure AWS Credentials from OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-            role-to-assume: ${{ env.AWS_ROLE }}
+           role-to-assume: ${{ env.AWS_ROLE }}
            aws-region: us-east-1 
+ 
       - name: Verify AWS Identity
         run: aws sts get-caller-identity
+    
       - name: Test S3 Connection
         run: aws s3 ls
+    
       - name: Test Lambda Connection
         run: aws lambda list-functions --max-items 5
+    
       - name: Test EC2 Connection
         run: aws ec2 describe-instances --max-items 5
