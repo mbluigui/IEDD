@@ -25,6 +25,4 @@ jobs:
     
       - name: Test Lambda Connection
         run: aws lambda list-functions --max-items 5
-    
-      - name: Test EC2 Connection
-        run: aws ec2 describe-instances --max-items 5
+  
